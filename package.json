@@ -1,0 +1,20 @@
+{
+  "name": "flex-upload-lib",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "flex-upload-lib": "ts-node index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "ethers": "^6.11.1",
+    "graphemer": "^1.4.0",
+    "ts-node": "^10.9.2",
+    "tsm": "^2.3.0"
+  }
+}
