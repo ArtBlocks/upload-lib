@@ -1,19 +1,43 @@
-# Flex Upload Library
+# Art Blocks Bytecode Storage Upload Library
 
-This script allows you to upload a script dependency as an onchain flex external asset dependency.
-It performs gzip+base64 encoding 
+This script allows you to upload data to the blockchain using the Art Blocks BytecodeStorage library. It is a gas-efficient way to store larger immutable string data on the blockchain.
+
+The script performs gzip+base64 encoding of the data and then uploads the encoded string in chunks to the blockchain.
+
+> note: Due to this script's gzip+base64 encoding prior to uploading, the on-chain compression capabilities of BytecodeStorage are not used by this script to avoid compressing already compressed data.
+
+Uploaded chunks can then be used by:
+
+- Art Blocks Dependency Registry (to be shared with the community)
+- Flex project external asset dependencies (to be used by one or more project scripts)
+- Any contract that loads data via the Art Blocks BytecodeStorageReader library
 
 # Steps to run
 
 1. Create and fill out an .env file with the required environment variables in the root of this directory (check .env.example)
 2. Install pnpm (https://pnpm.io/installation)
 3. Run `pnpm install` to install the dependencies
-4. Run `pnpm run flex-upload-lib {path}` where path is the path to the file you want to upload. The file will be uploaded to the flex contract in chunks and the console will print out the transaction hash for each succesful chunk upload.
+4. Run `pnpm run upload {path}` where path is the path to the file you want to upload. The file will be uploaded to the flex contract in chunks and the console will print out the transaction hash for each succesful chunk upload.
+
+# Steps to Add to Art Blocks Dependency Registry
+
+>a demo of this process can be found here: loom.com/share/af9a392cf90e4a929806c82a9f6d38e2
+
+1. TESTNET (sepolia) - Upload the file to the blockchain using the upload script
+2. Notify Art Blocks team that you have uploaded a new dependency that you would like to add to the Art Blocks Dependency Registry
+3. Art Blocks team will ensure the file is uploaded correctly on testnet, and will ask you to upload the same file to mainnet.
+4. Once the file is uploaded to mainnet, the Art Blocks team will add the dependency to the Art Blocks Dependency Registry, making it available to the Ethereum community.
 
 
-# Steps to use in your project script
+# Steps to use in your Flex project script
 
-First, please familiarize yourself with using flex external asset deps in your project script:
+>**Warning:** You may also upload on chain data via the Art Blocks Creator Dashboard at https://create.artblocks.io. That is the recommended approach due to the ease of use. The more direct approach below is provided for users who may want to bypass the Creator Dashboard.
+
+First, you may upload your data to the blockchain using the upload script. Use testnet first to ensure everything works as expected.
+
+Second, you will need to point to the uploaded external asset dependencies on your flex project. The deployed BytecodeStorage contract addresses output by the upload script should be added to your project via the function `addProjectAssetDependencyOnChainAtAddress` (or `updateProjectAssetDependencyOnChainAtAddress`) on your Flex contract.
+
+Finally, you need to load the external asset dependependency data in your project script. Please familiarize yourself with using flex external asset dependencies in your project script:
 https://docs.artblocks.io/creator-docs/art-blocks-engine-onboarding/art-blocks-engine-101/engine-technical-details/#working-with-external-asset-dependencies-in-your-project-script
 
 Token data will contain an array of externalAssetDependencies, each one containing a data property representing a chunk of the file that was uploaded above as a encoded string. You should concatenate these encoded chunk strings into a single string (making sure to preserve the same order). 
