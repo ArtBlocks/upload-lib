@@ -21,7 +21,7 @@ Uploaded chunks can then be used by:
 
 # Steps to Add to Art Blocks Dependency Registry
 
->a demo of this process can be found here: loom.com/share/af9a392cf90e4a929806c82a9f6d38e2
+>a demo of this process can be found here: [loom.com/share/af9a392cf90e4a929806c82a9f6d38e2](https://loom.com/share/af9a392cf90e4a929806c82a9f6d38e2)
 
 1. TESTNET (sepolia) - Upload the file to the blockchain using the upload script
 2. Notify Art Blocks team that you have uploaded a new dependency that you would like to add to the Art Blocks Dependency Registry
