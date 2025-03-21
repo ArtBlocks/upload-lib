@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { createPublicClient, createWalletClient, getContract, http } from "viem";
+import { createPublicClient, createWalletClient, getContract, http, parseEventLogs } from "viem";
 import fs from "fs";
 import zlib from "zlib";
 import util from "util";
@@ -164,7 +164,12 @@ const main = async () => {
     client: walletClient,
   });
 
-  for (const chunk of chunks) {
+  for (let i = 0; i < chunks.length; i++) {
+    const chunk = chunks[i];
+    if (!chunk) {
+      continue;
+    }
+    
     const tx = await contract.write.writeStringToBytecodeStorage([chunk], {
       account: walletClient.account,
       chain: walletClient.chain,
@@ -173,7 +178,13 @@ const main = async () => {
     const receipt = await publicClient.waitForTransactionReceipt({
       hash: tx,
     });
-    console.log(`Transaction confirmed in block ${receipt.blockNumber}`);
+    const logs = parseEventLogs({
+      abi: ABI,
+      logs: receipt.logs,
+    });
+    for (const log of logs) {
+      console.log(`Chunk ${i} uploaded to ${log.args.storageContract}`);
+    }
   }
 };
 
