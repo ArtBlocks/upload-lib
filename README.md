@@ -8,7 +8,7 @@ It performs gzip+base64 encoding
 1. Create and fill out an .env file with the required environment variables in the root of this directory (check .env.example)
 2. Install pnpm (https://pnpm.io/installation)
 3. Run `pnpm install` to install the dependencies
-4. Run `pnpm run flex-upload-lib {path}` where path is the path to the file you want to upload. The file will be uploaded to the flex contract in chunks and the console will print out the transaction hash for each succesful chunk upload.
+4. Run `pnpm run upload {path}` where path is the path to the file you want to upload. The file will be uploaded to the flex contract in chunks and the console will print out the transaction hash for each succesful chunk upload.
 
 
 # Steps to use in your project script
